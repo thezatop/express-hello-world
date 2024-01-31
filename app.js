@@ -2,14 +2,9 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use((req, res, next) => {
-    const userIP = req.ip || req.connection.remoteAddress;
-    console.log(`User connected from IP: ${userIP}`);
-    next();
-});
-
 app.get("/", (req, res) => {
-  const userIP = req.ip || req.connection.remoteAddress;
+  // Check if there's an X-Forwarded-For header
+  const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
   // Log the user's IP address
   console.log(`User IP: ${userIP}`);
@@ -17,6 +12,7 @@ app.get("/", (req, res) => {
   // Your existing code to send the HTML response
   res.type('html').send(html);
 });
+
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
