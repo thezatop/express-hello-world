@@ -2,6 +2,12 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
+app.use((req, res, next) => {
+    const userIP = req.ip || req.connection.remoteAddress;
+    console.log(`User connected from IP: ${userIP}`);
+    next();
+});
+
 app.get("/", (req, res) => {
   const userIP = req.ip || req.connection.remoteAddress;
 
