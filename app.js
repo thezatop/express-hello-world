@@ -2,9 +2,17 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.get("/", (req, res) => console.log("hi"); res.type('html').send(html));
-    
-const server = app.listen(port, () => console.log(`Example app listening on port!`));
+app.get("/", (req, res) => {
+  const userIP = req.ip || req.connection.remoteAddress;
+
+  // Log the user's IP address
+  console.log(`User IP: ${userIP}`);
+
+  // Your existing code to send the HTML response
+  res.type('html').send(html);
+});
+
+const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
